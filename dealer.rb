@@ -19,6 +19,10 @@ class Dealer
 
   def take_win(value)
     @balance += value
+    self.free_hand
+  end
+
+  def free_hand
     @hand = []
   end
 end
