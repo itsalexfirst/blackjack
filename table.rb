@@ -1,5 +1,5 @@
 class Table
-  attr_reader :deck :bets
+  attr_reader :deck, :bets
 
   MAX = 10
 
@@ -20,16 +20,17 @@ class Table
   end
 
   def deals
-    @new_deck = @deck.shuffle
+    @new_deck = @deck
+    @new_deck.shuffle
     @players.each do |player|
       player.bet(MAX)
       @bets += MAX
-      2.times { self.give_card(player) }
+      2.times { give_card(player) }
     end
   end
 
   def give_card(player)
-    player.hand << new_deck.take_card
+    player.hand << @new_deck.take_card
   end
 
   def winner(player)
