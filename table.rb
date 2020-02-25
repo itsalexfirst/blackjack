@@ -2,6 +2,7 @@ class Table
   attr_reader :deck, :bets
 
   MAX = 10
+  BLACK_JACK = 21
 
   def initialize(deck, *players)
     @deck = deck
@@ -10,13 +11,15 @@ class Table
   end
 
   def score(player)
-    return 0 unless player.hand == []
+    return 0 unless player.hand != []
     score = 0
+    have_ace = false
     player.hand.each do |card|
       score += card.cost
-      #ace method
-    return score
+      have_ace ||= card.ace?
     end
+    score -= 10 if score > BLACK_JACK && have_ace
+    return score
   end
 
   def deals
