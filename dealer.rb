@@ -9,7 +9,7 @@ class Dealer
   end
 
   def can_bet?(value)
-    return unless value <= @balance
+    return false unless value <= @balance
     true
   end
 

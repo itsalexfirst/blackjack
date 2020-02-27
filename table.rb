@@ -51,7 +51,7 @@ class Table
   end
 
   def can_give_card?(player)
-    return if player.hand.count == 3
+    return false if player.hand.count == 3
     true
   end
 

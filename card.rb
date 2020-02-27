@@ -36,7 +36,7 @@ class Card
   end
 
   def ace?
-    return unless @value == 'A'
+    return false unless @value == 'A'
     true
   end
 

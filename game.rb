@@ -127,7 +127,7 @@ class Game
   end
 
   def play_again?
-    return unless play_again == 'y'
+    return false unless play_again == 'y'
     true
   end
 
