@@ -11,29 +11,33 @@ class Game
   end
 
   def new_round
-    @round_run = true
-    @table.deals
-
     loop do
-      break unless @round_run
-      break if all_have_three
+      @round_run = true
+      @table.deals
+
       round
+
+      round_end
+
+      break unless @table.can_start_game? && play_again?
     end
-
-    round_end
-
-    new_round if @table.can_start_game? && play_again?
 
     game_over
   end
 
+
+
   def round
-    show_card_and_score(@player)
+    loop do
+      break unless @round_run
+      show_card_and_score(@player)
 
-    show_card_and_score(@dealer)
+      show_card_and_score(@dealer)
 
-    player_turn(@player) if @round_run
-    dealer_turn(@dealer) if @round_run
+      player_turn(@player) if @round_run
+      dealer_turn(@dealer) if @round_run
+      break if all_have_three
+    end
   end
 
   def round_end
@@ -52,6 +56,7 @@ class Game
   end
 
   def draw
+    puts 'Draw!'
     @table.draw
   end
 

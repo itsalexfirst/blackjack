@@ -54,7 +54,8 @@ class Table
   end
 
   def can_start_game?
-    return unless @players.each { |player| player.can_bet?(MAX)}
+    #похоже тут перемудрил
+    return false unless @players.reduce(true) { |cond, player| cond && player.can_bet?(MAX)}
     true
   end
 end

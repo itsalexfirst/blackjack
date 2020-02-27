@@ -14,7 +14,7 @@ class Player
   end
 
   def bet(value)
-    @balance -= value if self.can_bet?(value)
+    @balance -= value if can_bet?(value)
   end
 
   def take_win(value)
