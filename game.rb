@@ -1,12 +1,11 @@
 class Game
   def initialize
-    @deck = Deck.new(Card.all)
     @dealer = Dealer.new
   end
 
   def start
     @player = ask_name
-    @table = Table.new(@deck, @player, @dealer)
+    @table = Table.new(@player, @dealer)
 
     new_round
   end

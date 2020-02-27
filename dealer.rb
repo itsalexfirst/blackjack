@@ -3,7 +3,7 @@ class Dealer
   attr_accessor :hand
 
   def initialize
-    @name = Dealer
+    @name = 'Dealer'
     @balance = 100
     @hand = []
   end
@@ -19,7 +19,7 @@ class Dealer
 
   def take_win(value)
     @balance += value
-    self.free_hand
+    free_hand
   end
 
   def free_hand

@@ -10,21 +10,8 @@ class Card
         new_deck << card
       end
     end
-    return new_deck
+    new_deck
   end
-
-  #def self.ace
-  #  new_deck = []
-  #  SUITS.each do |suit|
-  #    card = Card.new('A', suit)
-  #    new_deck << card
-  #  end
-  #  SUITS.each do |suit|
-  #    card = Card.new('A', suit)
-  #    new_deck << card
-  #  end
-  #  return new_deck
-  #end
 
   def initialize(value, suit)
     @value = value

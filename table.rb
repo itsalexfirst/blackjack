@@ -4,8 +4,7 @@ class Table
   MAX = 10
   BLACK_JACK = 21
 
-  def initialize(deck, *players)
-    @deck = deck
+  def initialize(*players)
     @bets = 0
     @players = players
   end
@@ -23,8 +22,7 @@ class Table
   end
 
   def deals
-    @new_deck = @deck
-    @new_deck.shuffle
+    @new_deck = Deck.new
     @players.each do |player|
       player.bet(MAX)
       @bets += MAX

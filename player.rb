@@ -19,7 +19,7 @@ class Player
 
   def take_win(value)
     @balance += value
-    self.free_hand
+    free_hand
   end
 
   def free_hand
