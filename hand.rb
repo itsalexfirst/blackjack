@@ -12,9 +12,7 @@ class Hand
   end
 
   def can_give_card?
-    return false if @cards.count == 3
-
-    true
+    @cards.count == 3 ? false : true
   end
 
   def score

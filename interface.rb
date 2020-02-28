@@ -11,6 +11,8 @@ class Interface
     new_round
   end
 
+  private
+
   def new_round
     loop do
       @round_run = true
@@ -86,7 +88,7 @@ class Interface
     if @round_run && player.class == Dealer
       puts 'score: * '
     else
-      print "score: #{score(player)}\n"
+      puts "score: #{score(player)}"
     end
   end
 

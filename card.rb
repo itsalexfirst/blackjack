@@ -4,17 +4,6 @@ class Card
   VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'].freeze
   SUITS = ['♣', '♦', '♥', '♠'].freeze
 
-  def self.all
-    new_deck = []
-    VALUES.each do |value|
-      SUITS.each do |suit|
-        card = Card.new(value, suit)
-        new_deck << card
-      end
-    end
-    new_deck
-  end
-
   def initialize(value, suit)
     @value = value
     @suit = suit
@@ -25,9 +14,7 @@ class Card
   end
 
   def ace?
-    return false unless @value == 'A'
-
-    true
+    @value == 'A' ? true : false
   end
 
   def cost

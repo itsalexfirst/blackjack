@@ -63,7 +63,6 @@ class Game
   end
 
   def can_start_game?
-    # похоже тут перемудрил
     return false unless @players.reduce(true) { |cond, player| cond && player.can_bet?(MAX) }
 
     true

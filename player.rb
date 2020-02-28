@@ -11,13 +11,11 @@ class Player
   end
 
   def can_bet?(value)
-    return false unless value <= @balance
-
-    true
+    value <= @balance ? false : true
   end
 
   def bet(value)
-    @balance -= value if can_bet?(value)
+     can_bet?(value) ? @balance -= value : nil
   end
 
   def take_win(value)
