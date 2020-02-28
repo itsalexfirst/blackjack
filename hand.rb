@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hand
   attr_accessor :cards
 
@@ -11,11 +13,13 @@ class Hand
 
   def can_give_card?
     return false if @cards.count == 3
+
     true
   end
 
   def score
     return 0 unless @cards != []
+
     score = 0
     have_ace = false
     @cards.each do |card|
@@ -23,8 +27,6 @@ class Hand
       have_ace ||= card.ace?
     end
     score -= 10 if score > Game::BLACK_JACK && have_ace
-    return score
+    score
   end
 end
-
-

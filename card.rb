@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Card
-  VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
-  SUITS = ['♣', '♦', '♥', '♠']
+  VALUES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'].freeze
+  SUITS = ['♣', '♦', '♥', '♠'].freeze
 
   def self.all
     new_deck = []
@@ -24,12 +26,14 @@ class Card
 
   def ace?
     return false unless @value == 'A'
+
     true
   end
 
   def cost
     return 11 if @value == 'A'
-    return 10 if ['J', 'Q', 'K'].include?@value
+    return 10 if %w[J Q K].include? @value
+
     @value
   end
 end

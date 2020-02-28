@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Game
   attr_reader :deck, :bets
 
@@ -26,6 +28,22 @@ class Game
     player.hand.give_card(@new_deck.take_card)
   end
 
+  def win(player, dealer)
+    dealer_lower = score(player) > score(dealer)
+    if score(player) <= BLACK_JACK && dealer_lower || score(dealer) >= BLACK_JACK
+      winner = player
+      looser = dealer
+    else
+      winner = dealer
+      looser = player
+    end
+
+    winner(winner)
+    looser(looser)
+
+    winner
+  end
+
   def winner(player)
     player.take_win(@bets)
     @bets = 0
@@ -45,8 +63,9 @@ class Game
   end
 
   def can_start_game?
-    #похоже тут перемудрил
-    return false unless @players.reduce(true) { |cond, player| cond && player.can_bet?(MAX)}
+    # похоже тут перемудрил
+    return false unless @players.reduce(true) { |cond, player| cond && player.can_bet?(MAX) }
+
     true
   end
 end

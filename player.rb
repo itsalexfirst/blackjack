@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Player
   attr_reader :name, :balance
   attr_accessor :hand
@@ -10,6 +12,7 @@ class Player
 
   def can_bet?(value)
     return false unless value <= @balance
+
     true
   end
 
