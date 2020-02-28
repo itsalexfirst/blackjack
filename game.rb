@@ -1,147 +1,61 @@
 class Game
-  def initialize
-    @dealer = Dealer.new
-  end
+  attr_reader :deck, :bets
 
-  def start
-    @player = ask_name
-    @table = Table.new(@player, @dealer)
+  MAX = 10
+  BLACK_JACK = 21
 
-    new_round
-  end
-
-  def new_round
-    loop do
-      @round_run = true
-      @table.deals
-
-      round
-
-      round_end
-
-      break unless @table.can_start_game? && play_again?
-    end
-
-    game_over
-  end
-
-
-
-  def round
-    loop do
-      break unless @round_run
-      show_card_and_score(@player)
-
-      show_card_and_score(@dealer)
-
-      player_turn(@player) if @round_run
-      dealer_turn(@dealer) if @round_run
-      break if all_have_three
-    end
-  end
-
-  def round_end
-    show_card_and_score(@player)
-    show_card_and_score(@dealer)
-    if score(@player) == score(@dealer)
-      draw
-    else
-      win
-    end
-  end
-
-  def show_card_and_score(player)
-    show_card(player)
-    show_score(player)
-  end
-
-  def draw
-    puts 'Draw!'
-    @table.draw
-  end
-
-  def all_have_three
-    if @table.can_give_card?(@dealer) || @table.can_give_card?(@player)
-      return false
-    else
-      @round_run = false
-      return true
-    end
-  end
-
-  def win
-    if score(@player) < 21 && score(@player) > score(@dealer)
-      winner = @player
-      looser = @dealer
-    else
-      winner = @dealer
-      looser = @player
-    end
-
-    @table.winner(winner)
-    @table.looser(looser)
-    puts "#{winner.name} win."
+  def initialize(*players)
+    @bets = 0
+    @players = players
   end
 
   def score(player)
-    @table.score(player)
+    return 0 unless player.hand != []
+    score = 0
+    have_ace = false
+    player.hand.each do |card|
+      score += card.cost
+      have_ace ||= card.ace?
+    end
+    score -= 10 if score > BLACK_JACK && have_ace
+    return score
   end
 
-  def show_card(player)
-    print "#{player.name} :"
-    if @round_run && player.class == Dealer
-      print "#{ '* ' * player.hand.length}"
-    else
-      print "#{player.hand.join(' ')} "
+  def deals
+    @new_deck = Deck.new
+    @players.each do |player|
+      player.bet(MAX)
+      @bets += MAX
+      2.times { give_card(player) }
     end
   end
 
-  def show_score(player)
-    if @round_run && player.class == Dealer
-      puts 'score: * '
-    else
-      print "score: #{score(player)}\n"
-    end
+  def give_card(player)
+    player.hand << @new_deck.take_card
   end
 
-  def player_turn(player)
-    puts '1 - Skip turn; 2 - Take card; 3 - Show card'
-    choice = gets.chomp
-      case choice
-      when '1'
-        return
-      when '2'
-        @table.can_give_card?(player) ? @table.give_card(player) : @round_run = false
-      when '3'
-        @round_run = false
-      else
-        player_turn(player)
-      end
-    end
+  def winner(player)
+    player.take_win(@bets)
+    @bets = 0
   end
 
-  def dealer_turn(player)
-    @table.give_card(player) if @table.can_give_card?(player) && @table.score(player) < 17
+  def looser(player)
+    player.free_hand
   end
 
-  def play_again
-    puts "#{@player.name} balance: #{@player.balance}"
-    puts 'Play again? y/n'
-    gets.chomp
+  def draw
+    @players.each { |player| player.take_win(MAX) }
+    @bets = 0
   end
 
-  def play_again?
-    return false unless play_again == 'y'
+  def can_give_card?(player)
+    return false if player.hand.count == 3
     true
   end
 
-  def ask_name
-    puts 'Enter your name'
-    name = gets.chomp
-    return Player.new(name)
+  def can_start_game?
+    #похоже тут перемудрил
+    return false unless @players.reduce(true) { |cond, player| cond && player.can_bet?(MAX)}
+    true
   end
-
-  def game_over
-    puts 'Game over'
-    puts "#{@player.name} balance: #{@player.balance}. Dealer balance: #{@dealer.balance}"
 end
