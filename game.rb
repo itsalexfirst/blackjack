@@ -10,15 +10,7 @@ class Game
   end
 
   def score(player)
-    return 0 unless player.hand != []
-    score = 0
-    have_ace = false
-    player.hand.each do |card|
-      score += card.cost
-      have_ace ||= card.ace?
-    end
-    score -= 10 if score > BLACK_JACK && have_ace
-    return score
+    player.hand.score
   end
 
   def deals
@@ -31,7 +23,7 @@ class Game
   end
 
   def give_card(player)
-    player.hand << @new_deck.take_card
+    player.hand.give_card(@new_deck.take_card)
   end
 
   def winner(player)
@@ -49,8 +41,7 @@ class Game
   end
 
   def can_give_card?(player)
-    return false if player.hand.count == 3
-    true
+    player.hand.can_give_card?
   end
 
   def can_start_game?

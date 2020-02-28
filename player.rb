@@ -5,7 +5,7 @@ class Player
   def initialize(name)
     @name = name
     @balance = 100
-    @hand = []
+    @hand = Hand.new
   end
 
   def can_bet?(value)
@@ -23,6 +23,6 @@ class Player
   end
 
   def free_hand
-    @hand = []
+    @hand = Hand.new
   end
 end

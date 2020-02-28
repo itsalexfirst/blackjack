@@ -70,7 +70,8 @@ class Interface
   end
 
   def win
-    if score(@player) < 21 && score(@player) > score(@dealer)
+    dealer_lower = score(@player) > score(@dealer)
+    if score(@player) <= Game::BLACK_JACK && score(@dealer) <= Game::BLACK_JACK @@ dealer_lower
       winner = @player
       looser = @dealer
     else
@@ -90,9 +91,9 @@ class Interface
   def show_card(player)
     print "#{player.name} :"
     if @round_run && player.class == Dealer
-      print "#{ '* ' * player.hand.length}"
+      print "#{ '* ' * player.hand.cards.length}"
     else
-      print "#{player.hand.join(' ')} "
+      print "#{player.hand.cards.join(' ')} "
     end
   end
 
